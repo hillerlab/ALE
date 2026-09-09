@@ -392,8 +392,8 @@ table a:hover {
 
 td:nth-child(5),
 th:nth-child(5) {
-  width: 400px;
-  max-width: 400px;
+  width: 500px;
+  max-width: 500px;
 }
 
 #page-search .content {
