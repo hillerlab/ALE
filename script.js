@@ -9,6 +9,11 @@
 const DOWNLOADS_ENABLED = true;
 // -------------------------------------------------------------------
 
+// ---- DATA SOURCE --------------------------------------------------
+// ALE.tsv is now hosted in the hillerlab/ALE GitHub repo (raw.githubusercontent.com).
+const ALE_TSV_URL = "https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv";
+// -------------------------------------------------------------------
+
 // ---- COLUMNS TO HIDE FROM THE SITE ENTIRELY ---------------------------
 // Any header matching one of these names (case-insensitive) is stripped
 // out of every row before the data is displayed or downloaded.
@@ -83,7 +88,7 @@ window.addEventListener("DOMContentLoaded", router);
    HOME PAGE LOGIC
    ======================================================= */
 function loadHomeChart() {
-  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
+  fetch(ALE_TSV_URL)
     .then(r => r.text())
     .then(data => {
 
@@ -260,7 +265,7 @@ document.getElementById("downloadBtn").addEventListener("click", (e) => {
     return;
   }
 
-  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
+  fetch(ALE_TSV_URL)
     .then(res => res.text())
     .then(data => {
       const rows = stripExcludedColumns(data.trim().split(/\r?\n/).map(r => r.split("\t")));
@@ -342,7 +347,7 @@ function showToast(message) {
 
 /* =======================================================
    CITATION PAGE — SOURCE / CONTRIBUTOR LIST
-   Built from db_titles_links.csv (Author;Source;Link).
+   Built from ALE_contributors.csv (Author;Source;Link).
    Rendered as "Author. Title" with Title hyperlinked to
    the link from the last column.
    ======================================================= */
@@ -390,7 +395,8 @@ async function renderCitationSources() {
   }
 }
 
-// Minimal CSV parser that handles quoted fields with commas inside them
+// Minimal parser for ALE_contributors.csv, which uses ";" as the field
+// separator (Author;Source;Link) rather than a comma or tab.
 function parseTSV(text) {
   return text
     .split(/\r?\n/)
@@ -408,7 +414,7 @@ let sortColumn = null;
 let sortDirection = 1; // 1 = ascending, -1 = descending
 
 function loadSearchPage() {
-  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
+  fetch(ALE_TSV_URL)
     .then(res => res.text())
     .then(data => {
       let rows = data.trim().split("\n").map(r => r.split("\t"));
@@ -453,6 +459,11 @@ function renderTable(rows) {
   // Find the index of the Notes_on_missing_life_history column by header name
   const notesIdx = rows[0]
     ? rows[0].findIndex(h => (h || "").trim().toLowerCase() === "notes_on_missing_life_history")
+    : -1;
+
+  // Find the index of the Common_name column by header name
+  const commonNameIdx = rows[0]
+    ? rows[0].findIndex(h => (h || "").trim().toLowerCase() === "common_name")
     : -1;
 
   rows.forEach((row, i) => {
@@ -523,6 +534,11 @@ function renderTable(rows) {
           el.textContent = cell;
         }
       } else if (i > 0 && j === notesIdx && notesIdx !== -1) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "col0-scroll";
+        wrapper.textContent = cell;
+        el.appendChild(wrapper);
+      } else if (i > 0 && j === commonNameIdx && commonNameIdx !== -1) {
         const wrapper = document.createElement("div");
         wrapper.className = "col0-scroll";
         wrapper.textContent = cell;
@@ -614,7 +630,7 @@ function loadSpeciesPage(speciesQuery) {
   document.getElementById("wikiImageContainer").style.display = "none";
   document.querySelectorAll("#page-species .graph-container")[1].style.display = "";
 
-  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
+  fetch(ALE_TSV_URL)
     .then(r => r.text())
     .then(data => {
       const rows = data.trim().split("\n").map(r => r.split("\t"));
@@ -692,24 +708,14 @@ function loadSpeciesPage(speciesQuery) {
           document.getElementById("wikiImageContainer").style.display = "none";
         });
 
-      // ---- Lifespan distribution PNG, pulled from the ALE_pngs GitHub repo ----
+       // ---- Lifespan distribution PNG, now pulled from the ALE_pngs folder ----
+      // in the hillerlab/ALE repo (moved from the old dinobretzel11/ALE_pdf repo).
       const pngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_${wikiName}.png`;
-      const fallbackPngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_nan.png`;
       const graphContainer = document.getElementById("speciesGraphContainer");
       const graphImg = document.getElementById("speciesGraph");
 
-      graphImg.onload = () => {
-        graphContainer.style.display = "";
-      };
-      graphImg.onerror = () => {
-        // If the species-specific image fails, try the fallback
-        if (graphImg.src !== fallbackPngUrl) {
-          graphImg.src = fallbackPngUrl;
-        } else {
-          // Fallback also failed → hide container
-          graphContainer.style.display = "none";
-        }
-      };
+      graphImg.onload = () => { graphContainer.style.display = ""; };
+      graphImg.onerror = () => { graphContainer.style.display = "none"; };
       graphImg.src = pngUrl;
     });
 }
