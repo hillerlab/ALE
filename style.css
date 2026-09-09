@@ -390,10 +390,11 @@ table a:hover {
   display: block;
 }
 
+/* Common_name column */
 td:nth-child(5),
 th:nth-child(5) {
-  width: 500px;
-  max-width: 500px;
+  width: 220px;
+  max-width: 220px;
 }
 
 #page-search .content {
@@ -488,13 +489,20 @@ th:nth-child(5) {
   min-width: 150px;
 }
 
-/* First column */
+/* First column (Lineage) */
 #page-search #myTable th:first-child,
 #page-search #myTable td:first-child {
   width: 320px;
   min-width: 320px;
   max-width: none;
   padding-right: 18px;
+}
+
+/* Common_name column */
+#page-search #myTable th:nth-child(5),
+#page-search #myTable td:nth-child(5) {
+  width: 220px;
+  min-width: 220px;
 }
 
 /* Species column */
@@ -511,7 +519,7 @@ th:nth-child(5) {
   min-width: 130px;
 }
 
-/* Long values in the first column */
+/* Long values in the first column (Lineage / Notes) */
 #page-search .col0-scroll {
   display: block;
   width: 300px;
