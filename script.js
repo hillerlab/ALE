@@ -9,6 +9,11 @@
 const DOWNLOADS_ENABLED = true;
 // -------------------------------------------------------------------
 
+// ---- DATA SOURCE --------------------------------------------------
+// ALE.tsv is now hosted in the hillerlab/ALE GitHub repo (raw.githubusercontent.com).
+const ALE_TSV_URL = "https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv";
+// -------------------------------------------------------------------
+
 // ---- COLUMNS TO HIDE FROM THE SITE ENTIRELY ---------------------------
 // Any header matching one of these names (case-insensitive) is stripped
 // out of every row before the data is displayed or downloaded.
@@ -83,7 +88,7 @@ window.addEventListener("DOMContentLoaded", router);
    HOME PAGE LOGIC
    ======================================================= */
 function loadHomeChart() {
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch(ALE_TSV_URL)
     .then(r => r.text())
     .then(data => {
 
@@ -260,7 +265,7 @@ document.getElementById("downloadBtn").addEventListener("click", (e) => {
     return;
   }
 
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch(ALE_TSV_URL)
     .then(res => res.text())
     .then(data => {
       const rows = stripExcludedColumns(data.trim().split(/\r?\n/).map(r => r.split("\t")));
@@ -408,7 +413,7 @@ let sortColumn = null;
 let sortDirection = 1; // 1 = ascending, -1 = descending
 
 function loadSearchPage() {
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch(ALE_TSV_URL)
     .then(res => res.text())
     .then(data => {
       let rows = data.trim().split("\n").map(r => r.split("\t"));
@@ -614,7 +619,7 @@ function loadSpeciesPage(speciesQuery) {
   document.getElementById("wikiImageContainer").style.display = "none";
   document.querySelectorAll("#page-species .graph-container")[1].style.display = "";
 
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch(ALE_TSV_URL)
     .then(r => r.text())
     .then(data => {
       const rows = data.trim().split("\n").map(r => r.split("\t"));
@@ -692,8 +697,9 @@ function loadSpeciesPage(speciesQuery) {
           document.getElementById("wikiImageContainer").style.display = "none";
         });
 
-       // ---- Lifespan distribution PNG, pulled from the ALE_pdf GitHub repo ----
-      const pngUrl = `https://raw.githubusercontent.com/dinobretzel11/ALE_pdf/main/ALE_${wikiName}.png`;
+       // ---- Lifespan distribution PNG, now pulled from the ALE_pngs folder ----
+      // in the hillerlab/ALE repo (moved from the old dinobretzel11/ALE_pdf repo).
+      const pngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_${wikiName}.png`;
       const graphContainer = document.getElementById("speciesGraphContainer");
       const graphImg = document.getElementById("speciesGraph");
 
