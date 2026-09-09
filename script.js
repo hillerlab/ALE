@@ -83,7 +83,7 @@ window.addEventListener("DOMContentLoaded", router);
    HOME PAGE LOGIC
    ======================================================= */
 function loadHomeChart() {
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
     .then(r => r.text())
     .then(data => {
 
@@ -260,7 +260,7 @@ document.getElementById("downloadBtn").addEventListener("click", (e) => {
     return;
   }
 
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
     .then(res => res.text())
     .then(data => {
       const rows = stripExcludedColumns(data.trim().split(/\r?\n/).map(r => r.split("\t")));
@@ -346,7 +346,7 @@ function showToast(message) {
    Rendered as "Author. Title" with Title hyperlinked to
    the link from the last column.
    ======================================================= */
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTu8eXwg9UaNbEOIHUvay6amvjLfJYW1BqD2BR5qfvgTIroWwvvWHFRxP3BxtBRXqQKVdDzuK9nG3nT/pub?gid=1133325118&single=true&output=tsv";
+const SHEET_CSV_URL = "https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_contributors.csv";
 
 async function renderCitationSources() {
   const list = document.getElementById("citationSourcesList");
@@ -395,7 +395,7 @@ function parseTSV(text) {
   return text
     .split(/\r?\n/)
     .filter(line => line.length > 0)
-    .map(line => line.split("\t"));
+    .map(line => line.split(";"));
 }
 
 /* =======================================================
@@ -408,7 +408,7 @@ let sortColumn = null;
 let sortDirection = 1; // 1 = ascending, -1 = descending
 
 function loadSearchPage() {
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
     .then(res => res.text())
     .then(data => {
       let rows = data.trim().split("\n").map(r => r.split("\t"));
@@ -614,7 +614,7 @@ function loadSpeciesPage(speciesQuery) {
   document.getElementById("wikiImageContainer").style.display = "none";
   document.querySelectorAll("#page-species .graph-container")[1].style.display = "";
 
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSP78IlP9o65uPHM0NWrFsDxQCbcKx79PfGIK2TdlGFlf3Xkl-GptKw3-WoOkWi6SRqrgtpupe-mO2R/pub?gid=1740982218&single=true&output=tsv")
+  fetch("https://raw.githubusercontent.com/hillerlab/ALE/main/ALE.tsv")
     .then(r => r.text())
     .then(data => {
       const rows = data.trim().split("\n").map(r => r.split("\t"));
