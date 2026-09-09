@@ -692,25 +692,26 @@ function loadSpeciesPage(speciesQuery) {
           document.getElementById("wikiImageContainer").style.display = "none";
         });
 
-       // ---- Lifespan distribution PNG, pulled from the ALE_pdf GitHub repo ---
-       const wikiName = row[iSpecies].trim().replace(/\s+/g, "_");
-       const pngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_${wikiName}.png`;
-       const fallbackPngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_nan.png`;
-       const graphContainer = document.getElementById("speciesGraphContainer");
-       const graphImg = document.getElementById("speciesGraph");
-       
-       graphImg.onload = () => {
-          graphContainer.style.display = "";
-       };
-       graphImg.onerror = () => {
-          // If the species-specific image fails, try the fallback
-          if (graphImg.src !== fallbackPngUrl) {
-             graphImg.src = fallbackPngUrl;
-          } else {
-             // Fallback also failed → hide container
-             graphContainer.style.display = "none";
-          }
-       };
-       graphImg.src = pngUrl;
+      // ---- Lifespan distribution PNG, pulled from the ALE_pngs GitHub repo ----
+      const pngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_${wikiName}.png`;
+      const fallbackPngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_nan.png`;
+      const graphContainer = document.getElementById("speciesGraphContainer");
+      const graphImg = document.getElementById("speciesGraph");
+
+      graphImg.onload = () => {
+        graphContainer.style.display = "";
+      };
+      graphImg.onerror = () => {
+        // If the species-specific image fails, try the fallback
+        if (graphImg.src !== fallbackPngUrl) {
+          graphImg.src = fallbackPngUrl;
+        } else {
+          // Fallback also failed → hide container
+          graphContainer.style.display = "none";
+        }
+      };
+      graphImg.src = pngUrl;
+    });
+}
 
 }
