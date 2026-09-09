@@ -713,5 +713,3 @@ function loadSpeciesPage(speciesQuery) {
       graphImg.src = pngUrl;
     });
 }
-
-}
