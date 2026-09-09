@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>verbal</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>ALE – Aggregate Lifespan Encyclopedia</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+</head>
+
+<body>
+
+<nav class="nav">
+  <div class="logo"> <a href="#/Home" style="color:#3b82f6; font-weight:600; text-decoration:none;"> ALE</a></div>
+  <div>
+    <a href="#/">Home</a>
+    <a href="#/search">Search</a>
+    <a href="#/new-metrics">New Metrics</a>
+    <a href="#" id="downloadBtn">Download</a>
+    <a href="#/citation">Citation</a>
+    <a href="#/contributions">Contributions</a>
+  </div>
+</nav>
+
+<!-- ======================= HOME PAGE ======================= -->
+<div class="page" id="page-home">
+
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>Aggregate Lifespan Encyclopedia</h1>
+      <p>
+        An aggregated, longevity dataset across <strong>1,400+ species</strong>
+      </p>
+      <a href="#/search" class="cta">Explore the Data →</a>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="card">
+      <h2>1,400+</h2>
+      <p>Species</p>
+    </div>
+    <div class="card">
+      <h2>250+</h2>
+      <p>Mammals not included in AnAge</p>
+    </div>
+    <div class="card">
+      <h2>150+</h2>
+      <p>High-quality lifespan datasets</p>
+    </div>
+  </section>
+
+  <section class="content">
+
+    <h2>About ALE</h2>
+
+    <div class="description-card">
+      <p>
+        The Aggregate Lifespan Encyclopedia integrates multiple longevity databases including the <a href = "https://esajournals.onlinelibrary.wiley.com/doi/10.1890/15-0846R.1" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> Amniote Life History Database </a>, <a href = "https://pubmed.ncbi.nlm.nih.gov/19522730/" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> AnAge </a>, <a href = "https://www.biorxiv.org/content/10.1101/2025.07.01.662579v1.full" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> Malddaba </a>, <a href = "https://pmc.ncbi.nlm.nih.gov/articles/PMC11872815/" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> MIDAS </a>, the <a href = "https://www.demogr.mpg.de/longevityrecords/" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> Max-Planck longevity records </a>, <a href = "https://esajournals.onlinelibrary.wiley.com/doi/10.1890/08-1494.1" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> PanTHERIA </a>, the <a href = "https://pmc.ncbi.nlm.nih.gov/articles/PMC6845424/" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> Primate Ageing Database </a>, <a href = "https://species360.org/" style ="color:#3b82f6; font-weight:600; text-decoration:none;"> Species360 </a>, and data from independent colonies.  When curating ALE our goal was to provide curated maximum lifespan independent of sample size. In our analysis we found a correlation between zoo sample size and maximum lifespan. Downstream genomics work would therefore be confounded by this correlation. To that end this database includes <a href="#/new-metrics" style="color:#3b82f6; font-weight:600; text-decoration:none;"> new metrics</a>(Q90, E90 and a boot-strap maximum lifespan) with reduced correlations to sample size. When possible, boot-strap maximums were calculated for a given species and used as the curated maximum value. In cases of animals known to struggle in captive conditions, like bats and whales, we instead used a combination of established data and wild data to fill in our curated maximum lifespan. 
+      </p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <h3>Curated Data</h3>
+        <p>Manual reconciliation across conflicting datasets</p>
+      </div>
+      <div class="feature">
+        <h3>Bias Analysis</h3>
+        <p>Corrected for sample size effects in lifespan metrics</p>
+      </div>
+      <div class="feature">
+        <h3>Broad Coverage</h3>
+        <p>Taxonomy spanning mammals</p>
+      </div>
+    </div>
+
+    <!-- Preview block -->
+    <div class="preview-block">
+      <p class="caption">
+        Below is an interactive graph showing how curated maximum compares to highest available maximum lifespan. In grey are species when no curation was performed beyond selecting the highest value. Curated values are plotted in blue connected to their corresponding highest maximum value in orange. The red line is a linear regression corresponding to AnAge data as performed previously by Foley et al 2018.
+      </p>
+
+      <div class="chart-wrapper">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Supplementary 1 -->
+    <div class="supplementary-block">
+      <p class="caption">
+        Example representation of ALE curation. Here we graph maximum lifespans from major sources that contributed to creation of database: Max-Planck longevity records, Amniote life history database, and AnAge database. Further included are box plots to highlight distributions of various sources of data. In this example we show the distribution of all Bos Taurus as well as sex segregated distributions. In this example the highest maximum lifespan of 36 years is not representative of most cows, and was only achieved after over 2000 estimations. Instead, the boot-strap maximum lifespan of 23 years is used for the curated dataset. Despite being lower than the highest maximum lifespan, the boot-strap maximum is still greater than the previous maximum of 20 years recorded in the Amniote life history database, AnAge, and the Max-Planck longevity records.
+      </p>
+
+      <div class="supplementary-image-wrapper">
+        <img src="https://raw.githubusercontent.com/dinobretzel11/ALE_pdf/main/ALE_Bos_taurus.png" class="supplementary-image">
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>Aggregate Lifespan Encyclopedia (ALE)</p>
+  </footer>
+</div>
+
+<!-- ======================= SEARCH PAGE ======================= -->
+<div class="page" id="page-search">
+
+  <header class="search-hero">
+    <div class="hero-inner">
+      <h1>Longevity Database Search</h1>
+      <p>Explore the data</p>
+    </div>
+  </header>
+
+  <div class="search-container">
+    <form class="example" onsubmit="return false;">
+      <div class="search-box-wrapper">
+        <i class="fa fa-search"></i>
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search by class, species name, or index properties...">
+      </div>
+    </form>
+  </div>
+
+  <section class="content" style="margin-top: 0; padding-top: 0;">
+    <div class="action-bar">
+      <button class="btn-download" onclick="downloadTable()">
+        <i class="fa fa-download"></i> Download Current Selection
+      </button>
+    </div>
+
+    <div class="table-container">
+      <table id="myTable">
+        <tr>
+          <th style="padding: 24px; text-align: center; color: #94a3b8;">Loading encylopedia entries...</th>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>Aggregate Lifespan Encyclopedia (ALE)</p>
+  </footer>
+</div>
+
+<!-- ======================= NEW METRICS PAGE ======================= -->
+<div class="page" id="page-new-metrics">
+
+  <header class="search-hero">
+    <div class="hero-inner">
+      <h1>New Metrics</h1>
+      <p>Introducing new ways to measure animal lifespan that remove bias introduced from sample size. </p>
+    </div>
+  </header>
+
+  <section class="content">
+
+    <div class="features" style="margin-bottom: 40px;">
+      <div class="graph-container" style="flex: 1 1 500px; margin-top: 0;">
+        <h3>Bootstrap</h3>
+        <img src="https://raw.githubusercontent.com/dinobretzel11/ALE_metrics/main/BSM_cal.png" alt="Bootstrap maximum lifespan metric" style="max-width:100%; height:auto; border-radius:8px;">
+      </div>
+      <div class="graph-container" style="flex: 1 1 500px; margin-top: 0;">
+        <h3>Q90 / E90</h3>
+        <img src="https://raw.githubusercontent.com/dinobretzel11/ALE_metrics/main/Q90_cal.png" alt="Q90 and E90 lifespan metrics" style="max-width:100%; height:auto; border-radius:8px;">
+      </div>
+    </div>
+
+    <!-- Supplementary 2 (moved from Home) -->
+    <div class="supplementary-block">
+      <p class="caption">
+        Below we present the correlations between several lifespan metrics and the sample size for a given species in the Species360 database. The correlation is strongest between sample size and maximum lifespan, but substantially reduced for the other, more robust metrics.  
+      </p>
+
+      <div style="width: 100%; overflow: hidden;">
+        <img src="https://raw.githubusercontent.com/dinobretzel11/ALE_metrics/main/5x_racing.png"
+             style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>Aggregate Lifespan Encyclopedia (ALE)</p>
+  </footer>
+</div>
+
+<!-- ======================= CITATION PAGE ======================= -->
+<!-- ======================= CITATION PAGE ======================= -->
+<div class="page" id="page-citation">
+
+  <header class="search-hero">
+    <div class="hero-inner">
+      <h1>Citation</h1>
+      <p>How to cite the Aggregate Lifespan Encyclopedia in your own work</p>
+    </div>
+  </header>
+
+  <section class="content">
+
+    <div class="description-card">
+      <h2>Website citation</h2>
+
+      <p id="citationText">
+        Ariel Lucas Eraso, Michael Hiller. 2026. Aggregate Lifespan Encyclopedia (ALE).
+        https://dinobretzel11.github.io/ALE.github.io/#/
+      </p>
+    </div>
+
+    <div class="action-bar">
+      <button class="btn-download" onclick="copyCitation()">
+        <i class="fa fa-copy"></i> Copy Citation
+      </button>
+    </div>
+
+    <div class="description-card">
+      <h2>Using ALE data</h2>
+      <p>
+        If you use ALE metrics in downstream analyses, please cite ALE together
+        with the original source databases referenced in each entry.
+      </p>
+
+      <p>
+        For the complete list of source databases, publications, contributors,
+        and source-comparison data, visit the
+        <a href="#/contributions">Contributions &amp; References</a> page.
+      </p>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>Aggregate Lifespan Encyclopedia (ALE)</p>
+  </footer>
+</div>
+<!-- ======================= CONTRIBUTIONS PAGE ======================= -->
+<div class="page" id="page-contributions">
+
+  <header class="search-hero">
+    <div class="hero-inner">
+      <h1>Contributions &amp; References</h1>
+      <p>Source databases, publications, investigators, and supporting data</p>
+    </div>
+  </header>
+
+  <section class="content">
+
+    <div class="description-card">
+      <h2>Data sources and contributors</h2>
+
+      <p class="caption">
+        ALE integrates multiple longevity databases, including the Amniote Life
+        History Database, AnAge, MIDAS, the Max-Planck longevity records,
+        PanTHERIA, the Primate Ageing Database, Species360, and data from
+        independent colonies.
+      </p>
+
+      <p class="caption">
+        We are grateful to the following investigators for providing relevant
+        data for curation: Matae Ahn, Michael Brecht, Rochelle Buffenstein, Gerald G. Carter, Cynthia Moss,
+        Rena Orman, Karen Sears, and Sonja Vernes.
+      </p>
+    </div>
+
+    <div class="description-card">
+      <h2>Sources and other contributions</h2>
+
+      <ul id="citationSourcesList" class="citation-list">
+        <li>Loading sources...</li>
+      </ul>
+    </div>
+
+    <div class="supplementary-block">
+      <h2>Source comparison table</h2>
+
+      <p class="caption">
+        This table contains the lifespan values collected from the source
+        databases used during ALE curation.
+      </p>
+
+      <div class="action-bar">
+        <button class="btn-download" onclick="downloadSourceTable()">
+          <i class="fa fa-download"></i>
+          Download Source Comparison Table
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>Aggregate Lifespan Encyclopedia (ALE)</p>
+  </footer>
+</div>
+  
+<!-- ======================= SPECIES PAGE ======================= -->
+<div class="page" id="page-species">
+
+  <header class="profile-header">
+    <div class="hero-inner">
+      <h1 id="speciesName">Loading...</h1>
+      <p>Common name: <span id="commonName">—</span></p>
+      <p>
+        <a id="wikiLink" href="#" target="_blank" rel="noopener"
+           style="color: white; text-decoration: underline;">
+          View on Wikipedia →
+        </a>
+      </p>
+      <p>
+        <span style="color: white;">TaxID: </span>
+        <a id="taxidLink" href="#" target="_blank" rel="noopener"
+           style="color: white; text-decoration: underline;">—</a>
+      </p>
+    </div>
+  </header>
+
+  <section class="content">
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <h2 id="max">—</h2>
+        <p>Curated Max</p>
+      </div>
+      <div class="metric-card">
+        <h2 id="q90">—</h2>
+        <p>Q90</p>
+      </div>
+      <div class="metric-card">
+        <h2 id="e90">—</h2>
+        <p>E90</p>
+      </div>
+      <div class="metric-card">
+        <h2 id="highest_max">—</h2>
+        <p>Highest max</p>
+      </div>
+    </div>
+
+    <div class="graph-container" id="wikiImageContainer" style="display:none;">
+      <h3>Wikipedia Image</h3>
+      <img id="wikiImage" alt="Wikipedia image for this species"
+           style="max-width:100%;height:auto;border-radius:8px;">
+    </div>
+
+    <div class="graph-container" id="speciesGraphContainer" style="display:none;">
+      <h3>Visual Lifespan Distribution</h3>
+      <img id="speciesGraph"
+           style="width:100%; max-height:500px; object-fit:contain; border:1px solid #ccc; border-radius:8px;">
+    </div>
+  </section>
+
+  <footer>
+    <p>Aggregate Lifespan Encyclopedia (ALE)</p>
+  </footer>
+</div>
+
+<div id="toast" class="toast">Copied to clipboard</div>
+<script src="script.js"></script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
