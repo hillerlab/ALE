@@ -693,7 +693,7 @@ function loadSpeciesPage(speciesQuery) {
         });
 
        // ---- Lifespan distribution PNG, pulled from the ALE_pdf GitHub repo ----
-      const pngUrl = `https://raw.githubusercontent.com/dinobretzel11/ALE_pdf/main/ALE_${wikiName}.png`;
+      const pngUrl = `https://raw.githubusercontent.com/hiller_lab/ALE/main/ALE_pngs/ALE_${wikiName}.png`;
       const graphContainer = document.getElementById("speciesGraphContainer");
       const graphImg = document.getElementById("speciesGraph");
 
