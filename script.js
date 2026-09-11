@@ -710,12 +710,22 @@ function loadSpeciesPage(speciesQuery) {
 
        // ---- Lifespan distribution PNG, now pulled from the ALE_pngs folder ----
       // in the hillerlab/ALE repo (moved from the old dinobretzel11/ALE_pdf repo).
+      // Falls back to ALE_nan.png if the species-specific image isn't available.
       const pngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_${wikiName}.png`;
+      const fallbackPngUrl = `https://raw.githubusercontent.com/hillerlab/ALE/main/ALE_pngs/ALE_nan.png`;
       const graphContainer = document.getElementById("speciesGraphContainer");
       const graphImg = document.getElementById("speciesGraph");
 
+      let triedFallback = false;
       graphImg.onload = () => { graphContainer.style.display = ""; };
-      graphImg.onerror = () => { graphContainer.style.display = "none"; };
+      graphImg.onerror = () => {
+        if (!triedFallback) {
+          triedFallback = true;
+          graphImg.src = fallbackPngUrl;
+        } else {
+          graphContainer.style.display = "none";
+        }
+      };
       graphImg.src = pngUrl;
     });
 }
