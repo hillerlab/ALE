@@ -625,6 +625,7 @@ function loadSpeciesPage(speciesQuery) {
    document.getElementById("e90").textContent = "—";
    document.getElementById("curated_lq").textContent = "—";
    document.getElementById("highest_max").textContent = "—";
+   document.getElementById("highest_lq").textContent = "—";
    document.getElementById("taxidLink").textContent = "—";
    document.getElementById("taxidLink").removeAttribute("href");
    document.getElementById("wikiImage").removeAttribute("src");
@@ -642,6 +643,7 @@ function loadSpeciesPage(speciesQuery) {
       const iCommon = headers.indexOf("common_name");
       const iQ90 = headers.indexOf("curated_q90");
       const iclq = headers.indexOf("curated_lq");
+      const hlq = headers.indexOf("highest_max_lq");
       const iE90 = headers.indexOf("curated_e90");
       const iGraph = headers.indexOf("graph_url");
       const iHighestMax = headers.indexOf("highest_max");
@@ -686,6 +688,7 @@ function loadSpeciesPage(speciesQuery) {
        document.getElementById("e90").textContent = iE90 !== -1 && row[iE90] ? parseFloat(row[iE90]).toFixed(1) : "N/A";
        document.getElementById("curated_lq").textContent = iclq !== -1 && row[iclq] ? parseFloat(row[iclq]).toFixed(1) : "N/A";
        document.getElementById("highest_max").textContent = iHighestMax !== -1 && row[iHighestMax] ? parseFloat(row[iHighestMax]).toFixed(1) : "N/A";
+       document.getElementById("highest_lq").textContent = hlq !== -1 && row[iclq] ? parseFloat(row[iclq]).toFixed(1) : "N/A";
 
       fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikiName)}&prop=pageimages&format=json&pithumbsize=600&origin=*`
