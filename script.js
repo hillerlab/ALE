@@ -688,7 +688,7 @@ function loadSpeciesPage(speciesQuery) {
        document.getElementById("e90").textContent = iE90 !== -1 && row[iE90] ? parseFloat(row[iE90]).toFixed(1) : "N/A";
        document.getElementById("curated_lq").textContent = iclq !== -1 && row[iclq] ? parseFloat(row[iclq]).toFixed(1) : "N/A";
        document.getElementById("highest_max").textContent = iHighestMax !== -1 && row[iHighestMax] ? parseFloat(row[iHighestMax]).toFixed(1) : "N/A";
-       document.getElementById("highest_lq").textContent = hlq !== -1 && row[iclq] ? parseFloat(row[iclq]).toFixed(1) : "N/A";
+       document.getElementById("highest_lq").textContent = hlq !== -1 && row[hlq] ? parseFloat(row[hlq]).toFixed(1) : "N/A";
 
       fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikiName)}&prop=pageimages&format=json&pithumbsize=600&origin=*`
