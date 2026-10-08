@@ -548,3 +548,13 @@ th:nth-child(5) {
 #page-search #myTable th.frozen-col-last {
   border-right: 1px solid #e2e8f0;
 }
+
+
+<style>
+.ale-logo {
+  display: block;
+  max-height: 80px;
+  width: auto;
+  margin: 0 auto 1rem auto;
+}
+</style>
