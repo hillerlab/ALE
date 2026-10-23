@@ -142,8 +142,8 @@ function loadHomeChart() {
       const maxX = Math.max(...xs);
 
       const regressionData = [
-        { x: minX, y: 0.18 * minX + 0.546 },
-        { x: maxX, y: 0.18 * maxX + 0.546 }
+         { x: minX, y: 0.2060465106995406 * minX + 0.4319722461393014 },
+         { x: maxX, y: 0.2060465106995406 * maxX + 0.4319722461393014 }
       ];
 
       chartInstance = new Chart(document.getElementById("myChart"), {
@@ -254,6 +254,119 @@ function loadHomeChart() {
       };
 
       document.getElementById("myChart").style.cursor = "pointer";
+    });
+}
+function loadLQChart() {
+  fetch(ALE_TSV_URL)
+    .then(r => r.text())
+    .then(data => {
+      const rows = data.trim().split(/\r?\n/).map(r => r.split("\t").map(c => c.trim()));
+      const headers = rows[0];
+      const iSpecies = headers.indexOf("Species");
+      const iMass    = headers.indexOf("Mass_(g)");
+      const iLQ      = headers.indexOf("Curated_LQ");  // adjust if your header differs
+
+      const allPts = [];
+      for (let i = 1; i < rows.length; i++) {
+        const r = rows[i];
+        const species = r[iSpecies];
+        const mass    = Number(r[iMass]);
+        const lq      = Number(r[iLQ]);
+        if (!species || !Number.isFinite(mass) || !Number.isFinite(lq) || mass <= 0 || lq <= 0) continue;
+        allPts.push({ x: Math.log10(mass), y: lq, label: species });
+      }
+
+      const isNotable = pt => pt.y > 3 || pt.label === "Homo sapiens";
+      const redPts  = allPts.filter(isNotable);
+      const grayPts = allPts.filter(pt => !isNotable(pt));
+
+      const allX = allPts.map(p => p.x);
+      const minX = Math.min(...allX) - 0.2;
+      const maxX = Math.max(...allX) + 0.2;
+
+      const lqChart = new Chart(document.getElementById("lqChart"), {
+        type: "scatter",
+        data: {
+          datasets: [
+            {
+              label: "Other mammals",
+              data: grayPts,
+              backgroundColor: "rgba(136,135,128,0.55)",
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
+            {
+              label: "Notable",
+              data: redPts,
+              backgroundColor: "#e34948",
+              pointRadius: 5,
+              pointHoverRadius: 7,
+            },
+            {
+              label: "LQ = 1",
+              type: "line",
+              data: [{ x: minX, y: 1 }, { x: maxX, y: 1 }],
+              borderColor: "#2a2a2a",
+              borderWidth: 1.5,
+              pointRadius: 0,
+              fill: false,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const pt = ctx.raw;
+                  return pt.label
+                    ? [`${pt.label}`, `LQ: ${pt.y.toFixed(2)}`]
+                    : `LQ: ${ctx.parsed.y.toFixed(2)}`;
+                }
+              }
+            },
+            zoom: {
+              pan: { enabled: true, mode: "xy" },
+              zoom: {
+                wheel: { enabled: true },
+                pinch: { enabled: true },
+                drag: { enabled: false },
+                mode: "xy",
+              },
+              limits: {
+                x: { min: "original", max: "original" },
+                y: { min: "original", max: "original" }
+              }
+            }
+          },
+          scales: {
+            x: {
+              type: "linear",
+              title: { display: true, text: "Log10 Mass" },
+              min: minX, max: maxX,
+              grid: { display: false }
+            },
+            y: {
+              type: "linear",
+              title: { display: true, text: "Longevity Quotient" },
+              min: 0,
+              grid: { display: true }
+            }
+          }
+        }
+      });
+
+      // Click → species page
+      document.getElementById("lqChart").onclick = event => {
+        const els = lqChart.getElementsAtEventForMode(event, "nearest", { intersect: true }, false);
+        if (els.length) {
+          const pt = lqChart.data.datasets[els[0].datasetIndex].data[els[0].index];
+          if (pt?.label) window.location.hash = `#/species?name=${encodeURIComponent(pt.label)}`;
+        }
+      };
+      document.getElementById("lqChart").style.cursor = "pointer";
     });
 }
 
