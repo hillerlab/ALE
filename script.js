@@ -272,7 +272,7 @@ function loadLQChart() {
       const headers = rows[0];
       const iSpecies = headers.indexOf("Species");
       const iMass    = headers.indexOf("Mass_(g)");
-      const iLQ      = headers.indexOf("Curated_LQ");  // adjust if your header differs
+      const iLQ      = headers.indexOf("Curated_lq");  // adjust if your header differs
 
       const allPts = [];
       for (let i = 1; i < rows.length; i++) {
