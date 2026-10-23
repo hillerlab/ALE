@@ -5,12 +5,6 @@
 // at the top with the other flags:
 let lqChartLoaded = false;
 
-// inside the router, home branch:
-if (!lqChartLoaded) {
-  lqChartLoaded = true;
-  loadLQChart();
-}
-
 // ---- TEMPORARY SWITCH -------------------------------------------------
 // Set to true to re-enable all downloads (main TSV, search table,
 // source-comparison table) once you're ready to launch.
@@ -67,6 +61,10 @@ function router() {
       homeChartLoaded = true;
       loadHomeChart();
     }
+    if (!lqChartLoaded) {
+      lqChartLoaded = true;
+      loadLQChart();
+    }
   } else if (path === "/search") {
     document.getElementById("page-search").classList.add("active");
     if (!searchLoaded) {
@@ -79,8 +77,8 @@ function router() {
     document.getElementById("page-citation").classList.add("active");
     renderCitationSources();
   } else if (path === "/contributions") {
-  document.getElementById("page-contributions").classList.add("active");
-  renderCitationSources();
+    document.getElementById("page-contributions").classList.add("active");
+    renderCitationSources();
   } else if (path === "/species") {
     document.getElementById("page-species").classList.add("active");
     loadSpeciesPage(params.get("name"));
