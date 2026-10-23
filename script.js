@@ -2,6 +2,14 @@
    ROUTER — shows/hides the three "pages" based on the
    URL hash: #/  #/search  #/species?name=XXX
    ======================================================= */
+// at the top with the other flags:
+let lqChartLoaded = false;
+
+// inside the router, home branch:
+if (!lqChartLoaded) {
+  lqChartLoaded = true;
+  loadLQChart();
+}
 
 // ---- TEMPORARY SWITCH -------------------------------------------------
 // Set to true to re-enable all downloads (main TSV, search table,
