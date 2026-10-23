@@ -267,10 +267,11 @@ function loadLQChart() {
     .then(r => r.text())
     .then(data => {
       const rows = data.trim().split(/\r?\n/).map(r => r.split("\t").map(c => c.trim()));
-      const headers = rows[0];
-      const iSpecies = headers.indexOf("Species");
-      const iMass    = headers.indexOf("Mass_(g)");
-      const iLQ      = headers.indexOf("Curated_lq");  // adjust if your header differs
+      const headers = rows[0].map(h => h.trim());
+      const headersLower = headers.map(h => h.toLowerCase());
+      const iSpecies = headersLower.indexOf("species");
+      const iMass    = headersLower.indexOf("mass_(g)");
+      const iLQ      = headersLower.indexOf("curated_lq");
 
       const allPts = [];
       for (let i = 1; i < rows.length; i++) {
@@ -364,7 +365,6 @@ function loadLQChart() {
         }
       });
 
-      // Click → species page
       document.getElementById("lqChart").onclick = event => {
         const els = lqChart.getElementsAtEventForMode(event, "nearest", { intersect: true }, false);
         if (els.length) {
